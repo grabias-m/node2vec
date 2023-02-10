@@ -1,0 +1,3 @@
+
+
+python src/main.py --input graph/dd6.edgelist --output emb/dd6.emb --epochs 5 --dimensions 256
