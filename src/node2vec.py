@@ -1,6 +1,7 @@
 import numpy as np
 import networkx as nx
 import random
+from tqdm import tqdm
 
 
 class Graph():
@@ -44,8 +45,8 @@ class Graph():
 		walks = []
 		nodes = list(G.nodes())
 		print('Walk iteration:')
-		for walk_iter in range(num_walks):
-			print(str(walk_iter+1), '/', str(num_walks))
+		for walk_iter in tqdm(range(num_walks)):
+			# print(str(walk_iter+1), '/', str(num_walks))
 			random.shuffle(nodes)
 			for node in nodes:
 				walks.append(self.node2vec_walk(walk_length=walk_length, start_node=node))

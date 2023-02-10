@@ -39,7 +39,7 @@ def parse_args():
 	parser.add_argument('--window-size', type=int, default=10,
                     	help='Context size for optimization. Default is 10.')
 
-	parser.add_argument('--iter', default=1, type=int,
+	parser.add_argument('--epochs', default=1, type=int,
                       help='Number of epochs in SGD')
 
 	parser.add_argument('--workers', type=int, default=8,
@@ -67,6 +67,7 @@ def read_graph():
 	'''
 	Reads the input network in networkx.
 	'''
+	print("Reading the input file")
 	if args.weighted:
 		G = nx.read_edgelist(args.input, nodetype=int, data=(('weight',float),), create_using=nx.DiGraph())
 	else:
@@ -83,9 +84,11 @@ def learn_embeddings(walks):
 	'''
 	Learn embeddings by optimizing the Skipgram objective using SGD.
 	'''
+	print("Computing the graph embeddings")
 	walks = [list(map(str, walk)) for walk in walks]
-	model = Word2Vec(walks, vector_size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, epochs=args.iter)
+	model = Word2Vec(walks, vector_size=args.dimensions, window=args.window_size, min_count=0, sg=1, workers=args.workers, epochs=args.epochs)
 	model.wv.save_word2vec_format(args.output)
+	print(f"Embeddings save to {args.output}")
 
 def main(args):
 	'''
